@@ -7,61 +7,99 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 	<style>
 			@keyframes wiggle {
-					0%, 100% { transform: rotate(-5deg); }
-					50% { transform: rotate(5deg); }
+				0%, 100% { transform: rotate(-5deg); }
+				50% { transform: rotate(5deg); }
 			}
 
 			@keyframes bounce {
-					0%, 100% { transform: translateY(0); }
-					50% { transform: translateY(-10px); }
+				0%, 100% { transform: translateY(0); }
+				50% { transform: translateY(-10px); }
 			}
 
 			@keyframes wiggleBounce {
-					0%, 100% {
-							transform: rotate(-5deg) translateY(0);
-					}
-					25% {
-							transform: rotate(0deg) translateY(-10px);
-					}
-					50% {
-							transform: rotate(5deg) translateY(0);
-					}
-					75% {
-							transform: rotate(0deg) translateY(-10px);
-					}
+				0%, 100% {
+						transform: rotate(-5deg) translateY(0);
+				}
+				25% {
+						transform: rotate(0deg) translateY(-10px);
+				}
+				50% {
+						transform: rotate(5deg) translateY(0);
+				}
+				75% {
+						transform: rotate(0deg) translateY(-10px);
+				}
 			}
 
-			.cartoon-character {
-					animation: wiggle 0.5s ease-in-out infinite, bounce 0.5s ease-in-out infinite;
+			.cartoon-character2 {
+				animation: wiggleBounce 1s ease-in-out infinite;
 			}
-
-		.cartoon-character2 {
-				animation: wiggleBounce 0.5s ease-in-out infinite;
-		}
 	</style>
 </head>
 <body 
-	class="overflow-hidden bg-cover bg-center"
-	style="background-image: url('/public/wood.png')">
-		<!-- <img src="/public/cartoon_chef_2.png" class="cartoon-character2" alt="Cartoon Character"> -->
-    		<img src="{{ url_for('static', filename='images/cartoon_chef_2.png') }}" class="cartoon-character2" alt="Cartoon Character">
-
-        <div class="container mx-auto p-8 z-10 bg-white relative">
-			<div class="flex flex-col justify-center items-center w-full">
-					<label for="upload-file" class="flex flex-col justify-center items-center w-full h-32 border-2 border-dashed hover:bg-gray-100 hover:border-gray-300">
-							<div class="text-gray-600">Drag and drop your file here or click to select a file</div>
-							<input id="upload-file" type="file" class="hidden" accept="image/*" onchange="handleFileSelect(event)" />
-					</label>
-					<div id="preview" class="mt-4">
-							<!-- Image preview will be shown here -->
-					</div>
-					<button id="clear-button" class="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Clear Image</button>
+	class="overflow-hidden bg-cover bg-center h-screen relative bg-black"
+	style="background-image: url('{{ url_for('static', filename='images/wood.png') }}')"
+>
+	
+	<!-- top level container -->
+		<!-- first two states -->
+		<div id="pre-results" class="h-full">
+			<div id="title" class="h-1/6">title</div>
+			<div id="chef" class="h-3/6 w-full flex justify-center items-center">
+				<!-- chef -->
+				<img src="{{ url_for('static', filename='images/cartoon_chef.png') }}" class="relative z-20 max-h-full cartoon-character2" alt="Cartoon Character">
 			</div>
+
+			<div class="flex items-start justify-center h-2/6 w-full">
+				<!-- interactive bits -->
+				<div id="upload" class="w-5/6 m-4 bg-gray-100 rounded-lg shadow p-8 z-10 relative bg-opacity-25 hover:cursor-pointer hover:bg-opacity-50 border-2 border-dashed border-black">
+					<label for="upload-file" class="flex flex-col justify-center items-center w-full h-32 ">
+						<div class="text-black font-bold">Drag and drop or upload a picture of some pasta!</div>
+						<input id="upload-file" type="file" class="hidden" accept="image/*" onchange="handleFileSelect(event)" />
+					</label>
+				</div>
+
+				<div id="loading">
+					<!-- loading -->
+
+					<div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+						<div id="loading-bar" class="bg-blue-600 h-2.5 rounded-full" style="width: 45%"></div>
+					</div>
+  
+				</div>
+			</div>
+		</div>
+
+		<!-- results -->
+		<div id="results"></div>
+
+	<div class="absolute top-0 right-0 mt-4 mr-4 space-y-2">
+		<div id="debug-text"></div>
+		<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="changeState('upload')">Upload</button>
+		<button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onclick="changeState('loading')">Loading</button>
+		<button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="changeState('results')">Results</button>
 	</div>
-    {{ url_for('static', filename='js/script.js') }}
-	<!-- <script src="pasta_animation.js"></script> -->
-	<!-- <script src="file_upload.js"></script> -->
-    <!-- <script src=" {{ url_for('static', filename='js/pasta_animation.js') }}"></script> -->
+
+	<div class="absolute bottom-0 left-0 mb-4 ml-4 space-y-2">
+		<div>
+			<a class="hover:text-white hover:underline hover:cursor-pointer" href="https://github.com/tobthecreator/pasta-classifier" target="_blank">Github</a>
+		</div>
+		<div>
+			Built by <a class="hover:text-white hover:underline hover:cursor-pointer" href="https://twitter.com/tobthecreator" target="_blank">@tobthecreator</a>
+		</div>
+	</div>
+
+	<audio id="italian" autoplay>
+		<source src="{{ url_for('static', filename='music/italian.mp3') }}" type="audio/mpeg">
+	</audio>
+
+
+	<script src=" {{ url_for('static', filename='js/state.js') }}"></script>
+
+	<script>
+		const BASE_URL = "{{ url_for('static', filename='images/pasta/') }}";
+	</script>
+    <script src=" {{ url_for('static', filename='js/pasta_animation.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/file_upload.js') }}"></script>
 </body>
 </html>

@@ -2,8 +2,8 @@ let generateImages = true;
 const numberOfColumns = 5;
 let columnWidth = window.innerWidth / numberOfColumns;
 
-const squareSize = 48;
-let squares = [];
+const imgSize = 48;
+let imgs = [];
 
 let shapes = [
 	"rigatonni",
@@ -17,34 +17,34 @@ let shapes = [
 ];
 
 function createSquare(columnIndex) {
-	const square = document.createElement("img");
+	const img = document.createElement("img");
 
 	const shape = shapes[Math.floor(Math.random() * shapes.length)];
-	square.src = `/public/pasta/${shape}.png`; // Replace with your image path
+	img.src = BASE_URL + shape + ".png"; // Use the BASE URL here
 
-	square.className = `absolute w-12 h-12 z-0`;
+	img.className = `absolute w-12 h-12 z-0`;
 
-	const xPosition = columnIndex * columnWidth + (columnWidth - squareSize) / 2;
-	square.style.left = xPosition + "px";
+	const xPosition = columnIndex * columnWidth + (columnWidth - imgSize) / 2;
+	img.style.left = xPosition + "px";
 
-	const yPosition = -squareSize;
+	const yPosition = -imgSize;
 	console.log(yPosition);
-	square.style.top = yPosition + "px";
+	img.style.top = yPosition + "px";
 
-	square.style.transform = `rotate(${Math.random() * 360}deg)`;
+	img.style.transform = `rotate(${Math.random() * 360}deg)`;
 
-	document.body.appendChild(square);
-	squares.push({ element: square, columnIndex: columnIndex });
+	document.body.appendChild(img);
+	imgs.push({ element: img, columnIndex: columnIndex });
 
 	let yPos = yPosition;
 	function fall() {
 		yPos += 0.4; // Adjust the speed of falling
-		square.style.top = yPos + "px";
+		img.style.top = yPos + "px";
 
 		if (yPos < window.innerHeight) {
 			requestAnimationFrame(fall);
 		} else {
-			square.remove();
+			img.remove();
 		}
 	}
 	fall();
