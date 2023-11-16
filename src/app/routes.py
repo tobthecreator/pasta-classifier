@@ -1,14 +1,12 @@
 from app import app
 from flask import render_template, request, jsonify
-from app.learner import learner
+from app.learner import get_learner
 from fastai.vision.all import *
-
-
 
 categories = ['bowtie', 'fettuccine', 'lasagna', 'linguine', 'not pasta', 'penne', 'ravioli', 'rigatoni', 'rotini', 'spaghetti']
 
 
-def classify_image(img):
+def classify_image(learner, img):
     _, _, probs = learner.predict(img)
 
     return dict(zip(categories, map(float, probs)))
@@ -19,6 +17,7 @@ def index():
 
 @app.route('/predict', methods=['POST'])
 def predict():
+    learner = get_learner()
     print(learner)
     # Check if the request contains the 'image' part
     if 'image' not in request.files:
@@ -34,7 +33,7 @@ def predict():
     im = PILImage.create(file)
     im.thumbnail((192,192))
     
-    print(classify_image(im))
+    print(classify_image(learner, im))
 
     # Here, you can add your code to process the image or save it
     # For example, file.save('path_to_save_image')
