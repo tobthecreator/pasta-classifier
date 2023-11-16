@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raining Squares</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+	<style>
+			@keyframes wiggle {
+					0%, 100% { transform: rotate(-5deg); }
+					50% { transform: rotate(5deg); }
+			}
+
+			@keyframes bounce {
+					0%, 100% { transform: translateY(0); }
+					50% { transform: translateY(-10px); }
+			}
+
+			@keyframes wiggleBounce {
+					0%, 100% {
+							transform: rotate(-5deg) translateY(0);
+					}
+					25% {
+							transform: rotate(0deg) translateY(-10px);
+					}
+					50% {
+							transform: rotate(5deg) translateY(0);
+					}
+					75% {
+							transform: rotate(0deg) translateY(-10px);
+					}
+			}
+
+			.cartoon-character {
+					animation: wiggle 0.5s ease-in-out infinite, bounce 0.5s ease-in-out infinite;
+			}
+
+		.cartoon-character2 {
+				animation: wiggleBounce 0.5s ease-in-out infinite;
+		}
+	</style>
+</head>
+<body 
+	class="overflow-hidden bg-cover bg-center"
+	style="background-image: url('/public/wood.png')">
+		<!-- <img src="/public/cartoon_chef_2.png" class="cartoon-character2" alt="Cartoon Character"> -->
+    		<img src="{{ url_for('static', filename='images/cartoon_chef_2.png') }}" class="cartoon-character2" alt="Cartoon Character">
+
+        <div class="container mx-auto p-8 z-10 bg-white relative">
+			<div class="flex flex-col justify-center items-center w-full">
+					<label for="upload-file" class="flex flex-col justify-center items-center w-full h-32 border-2 border-dashed hover:bg-gray-100 hover:border-gray-300">
+							<div class="text-gray-600">Drag and drop your file here or click to select a file</div>
+							<input id="upload-file" type="file" class="hidden" accept="image/*" onchange="handleFileSelect(event)" />
+					</label>
+					<div id="preview" class="mt-4">
+							<!-- Image preview will be shown here -->
+					</div>
+					<button id="clear-button" class="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Clear Image</button>
+			</div>
+	</div>
+    {{ url_for('static', filename='js/script.js') }}
+	<!-- <script src="pasta_animation.js"></script> -->
+	<!-- <script src="file_upload.js"></script> -->
+    <!-- <script src=" {{ url_for('static', filename='js/pasta_animation.js') }}"></script> -->
+	<script src="{{ url_for('static', filename='js/file_upload.js') }}"></script>
+</body>
+</html>
