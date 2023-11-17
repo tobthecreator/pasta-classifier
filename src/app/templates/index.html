@@ -43,7 +43,7 @@
 	
 	<!-- top level container -->
 		<!-- first two states -->
-		<div id="pre-results" class="h-full">
+		<div class="h-full">
 			<div id="title" class="h-1/6">title</div>
 			<div id="chef" class="h-3/6 w-full flex justify-center items-center">
 				<!-- chef -->
@@ -61,17 +61,23 @@
 
 				<div id="loading">
 					<!-- loading -->
-
 					<div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
 						<div id="loading-bar" class="bg-blue-600 h-2.5 rounded-full" style="width: 45%"></div>
 					</div>
   
 				</div>
+
+				<!-- results -->
+				<div id="results">
+					<button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="changeState('upload')">Start over</button>
+
+					results
+
+				</div>
 			</div>
 		</div>
 
-		<!-- results -->
-		<div id="results"></div>
+		
 
 	<div class="absolute top-0 right-0 mt-4 mr-4 space-y-2">
 		<div id="debug-text"></div>
@@ -89,10 +95,9 @@
 		</div>
 	</div>
 
-	<audio id="italian" autoplay>
+	<!-- <audio id="italian" autoplay>
 		<source src="{{ url_for('static', filename='music/italian.mp3') }}" type="audio/mpeg">
-	</audio>
-
+	</audio> -->
 
 	<script src=" {{ url_for('static', filename='js/state.js') }}"></script>
 

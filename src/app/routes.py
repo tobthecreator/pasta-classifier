@@ -33,10 +33,4 @@ def predict():
     im = PILImage.create(file)
     im.thumbnail((192,192))
     
-    print(classify_image(learner, im))
-
-    # Here, you can add your code to process the image or save it
-    # For example, file.save('path_to_save_image')
-
-    # Respond with a simple message
-    return jsonify(message='Hello World!')
+    return jsonify(classify_image(learner, im))

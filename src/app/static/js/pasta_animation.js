@@ -28,7 +28,6 @@ function createSquare(columnIndex) {
 	img.style.left = xPosition + "px";
 
 	const yPosition = -imgSize;
-	console.log(yPosition);
 	img.style.top = yPosition + "px";
 
 	img.style.transform = `rotate(${Math.random() * 360}deg)`;
@@ -50,8 +49,10 @@ function createSquare(columnIndex) {
 	fall();
 }
 
-function generateSquaresInColumn(columnIndex) {
+function generateSquaresInColumn(columnIndex, generateImages, imgCount) {
 	if (!generateImages) return;
+
+	if (imgCount > 100) return;
 
 	function generateSquare() {
 		createSquare(columnIndex);
@@ -63,7 +64,6 @@ function generateSquaresInColumn(columnIndex) {
 }
 
 window.addEventListener("resize", () => {
-	console.log("resize!!");
 	columnWidth = window.innerWidth / numberOfColumns;
 
 	squares.forEach((squareObj) => {
@@ -74,11 +74,9 @@ window.addEventListener("resize", () => {
 });
 
 document.addEventListener("visibilitychange", () => {
-	console.log("visibilitychange!!!");
-
 	generateImages = document.visibilityState === "visible";
 });
 
 for (let i = 0; i < numberOfColumns; i++) {
-	setTimeout(generateSquaresInColumn(i), 1000);
+	setTimeout(generateSquaresInColumn(i, generateImages, imgs.length), 1000);
 }
