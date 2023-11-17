@@ -14,4 +14,4 @@ if __name__ == '__main__':
         
     # learn = load_learner('src/model/model.pkl')
     load_learner_model()
-    app.run(debug=True, port=8080)
+    app.run(debug=False, port=8080)
