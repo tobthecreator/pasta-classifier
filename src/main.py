@@ -1,6 +1,13 @@
 from app import app
 from app.learner import load_learner_model
+from dotenv import load_dotenv
+import os
+
 categories = ['bowtie', 'fettuccine', 'lasagna', 'linguine', 'not pasta', 'penne', 'ravioli', 'rigatoni', 'rotini', 'spaghetti']
+
+load_dotenv()
+
+
 
 
 if __name__ == '__main__':
@@ -14,4 +21,6 @@ if __name__ == '__main__':
         
     # learn = load_learner('src/model/model.pkl')
     load_learner_model()
-    app.run(debug=False, port=8080)
+    PORT = os.getenv('PORT')
+
+    app.run(debug=False, port=PORT)
